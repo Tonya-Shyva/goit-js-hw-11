@@ -3,7 +3,7 @@
   --dur: 0.3s;
   --color-bcg: blue;
   --color-light: #fff;
-  --color-brand: #57bd84;
+  --color-btn-submit: rgb(203, 198, 198);
   --height: 50px;
   --btn-width: 50px;
   --bez: cubic-bezier(0, 0, 0.43, 1.49);
@@ -65,7 +65,7 @@ input[type='text'] {
   right: -13px;
   width: var(--btn-width);
   font-weight: bold;
-  background: var(--color-brand);
+  background: var(--color-btn-submit);
   border-radius: 0 var(--rad) var(--rad) 0;
   cursor: pointer;
 }
