@@ -53,7 +53,7 @@ input[type='text'] {
   width: 100%;
   background: var(--color-light);
   padding: 0px 10px;
-  border-radius: var(--rad);
+  border-radius: var(--rad) var(--rad) var(--rad) var(--rad);
   appearance: none;
   transition: all var(--dur) var(--bez);
   transition-property: width, border-radius;
@@ -70,14 +70,25 @@ input[type='text'] {
   cursor: pointer;
 }
 
-input:not(:placeholder-shown) {
-  border-radius: var(--rad) 0 0 var(--rad);
+input:focus {
   width: calc(100% - var(--btn-width));
+  border-radius: var(--rad) 0 0 var(--rad);
   + button {
     display: flex;
     justify-content: center;
     align-items: center;
   }
+}
+input:not:focus {
+  border-top-right-radius: var(--rad) 0 0 var(--rad);
+  border-bottom-right-radius: var(--rad) 0 0 var(--rad);
+
+  // width: calc(100% - var(--btn-width));
+  // + button {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  // }
 }
 
 .icon {
