@@ -1,11 +1,12 @@
 :root {
-  --rad: 0.7rem;
-  --dur: 0.3s;
+  --rad: 4px;
+  --dur: 300ms;
   --color-bcg: blue;
   --color-light: #fff;
   --color-btn-submit: rgb(203, 198, 198);
-  --height: 50px;
-  --btn-width: 50px;
+  --color-activ: rgb(146, 215, 146);
+  --height: 40px;
+  --btn-width: 40px;
   --bez: cubic-bezier(0, 0, 0.43, 1.49);
 }
 
@@ -53,42 +54,42 @@ input[type='text'] {
   width: 100%;
   background: var(--color-light);
   padding: 0px 10px;
-  border-radius: var(--rad) var(--rad) var(--rad) var(--rad);
+  border-radius: var(--rad) var(--rad);
   appearance: none;
-  transition: all var(--dur) var(--bez);
-  transition-property: width, border-radius;
+  transition: width var(--dur) var(--bez);
   z-index: 1;
 }
 .btn-submit {
-  display: none;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
   position: absolute;
-  right: -13px;
+  right: 10px;
   width: var(--btn-width);
   font-weight: bold;
   background: var(--color-btn-submit);
   border-radius: 0 var(--rad) var(--rad) 0;
   cursor: pointer;
+
+  transition: visibility var(--dur) var(--bez), opacity var(--dur) var(--bez),
+    background-color var(--dur) var(--bez);
 }
 
-input:focus {
-  width: calc(100% - var(--btn-width));
-  border-radius: var(--rad) 0 0 var(--rad);
-  + button {
+input:not(:placeholder-shown) {
+  width: calc(100% + var(--btn-width));
+  + .btn-submit {
+    visibility: visible;
+    pointer-events: all;
+    opacity: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2;
   }
 }
-input:not:focus {
-  border-top-right-radius: var(--rad) 0 0 var(--rad);
-  border-bottom-right-radius: var(--rad) 0 0 var(--rad);
 
-  // width: calc(100% - var(--btn-width));
-  // + button {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  // }
+.btn-submit:hover {
+  background-color: var(--color-activ);
 }
 
 .icon {

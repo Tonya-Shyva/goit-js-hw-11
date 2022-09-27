@@ -65,10 +65,10 @@ btnLoadMore.addEventListener('click', () => {
 });
 
 function renderImageList(images) {
-  console.log(images, 'images');
+  //   console.log(images, 'images');
   const markup = images
     .map(image => {
-      console.log('img', image);
+      //   console.log('img', image);
       return `<div class="photo-card">
        <a href="${image.largeImageURL}"><img class="photo" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy" width="262" height="210"/></a>
         <div class="info">
