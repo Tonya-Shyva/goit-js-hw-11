@@ -3,32 +3,25 @@ import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const input = document.querySelector('input[type="text"]');
+const inputRef = document.querySelector('input[type="text"]');
 const btnSearch = document.querySelector('.btn-submit');
 const gallery = document.querySelector('.gallery');
 const btnLoadMore = document.querySelector('.load-more');
-let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 
-// const { height: cardHeight } = document
-//   .querySelector('.gallery')
-//   .firstElementChild.getBoundingClientRect();
-
-// window.scrollBy({
-//   top: cardHeight * 2,
-
-//   behavior: 'smooth',
-// });
+const gallerySimpleLightbox = new SimpleLightbox('.gallery a');
+let pageNumber = 1;
 
 btnLoadMore.style.display = 'none';
 
-let pageNumber = 1;
+btnSearch.addEventListener('click', onBtnSearchClick);
 
-btnSearch.addEventListener('click', e => {
+function onBtnSearchClick(e) {
   e.preventDefault();
   cleanGallery();
-  const trimmedValue = input.value.trim();
+  const trimmedValue = inputRef.value.trim();
   if (trimmedValue !== '') {
     fetchImages(trimmedValue, pageNumber).then(foundData => {
+      //   console.dir('onBtnSearchClick', foundData);
       if (foundData.hits.length === 0) {
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
@@ -43,26 +36,35 @@ btnSearch.addEventListener('click', e => {
       }
     });
   }
-});
+}
 
-btnLoadMore.addEventListener('click', () => {
-  pageNumber++;
-  const trimmedValue = input.value.trim();
-  btnLoadMore.style.display = 'none';
+btnLoadMore.addEventListener('click', onBtnLoadMoreClick);
+function onBtnLoadMoreClick() {
+  pageNumber += 1;
+  const trimmedValue = inputRef.value.trim();
   fetchImages(trimmedValue, pageNumber).then(foundData => {
+    // console.dir(foundData);
     if (foundData.hits.length === 0) {
       Notiflix.Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.'
+        "We're sorry, but you've reached the end of search results."
       );
+      btnLoadMore.style.display = 'none';
+      //   console.log(btnLoadMore);
     } else {
       renderImageList(foundData.hits);
-      Notiflix.Notify.success(
-        `Hooray! We found ${foundData.totalHits} images.`
-      );
-      btnLoadMore.style.display = 'block';
+      const { height: cardHeight } =
+        gallery.firstElementChild.getBoundingClientRect();
+
+      window.scrollBy({
+        top: cardHeight * 2.14,
+
+        behavior: 'smooth',
+      });
+
+      gallerySimpleLightbox.refresh();
     }
   });
-});
+}
 
 function renderImageList(images) {
   //   console.log(images, 'images');
@@ -70,7 +72,7 @@ function renderImageList(images) {
     .map(image => {
       //   console.log('img', image);
       return `<div class="photo-card">
-       <a href="${image.largeImageURL}"><img class="photo" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy" width="262" height="210"/></a>
+       <a href="${image.largeImageURL}"><img class="photo" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy" width="262" height="200"/></a>
         <div class="info">
            <p class="info-item">
     <b>Likes</b> <span class="info-item-api"> ${image.likes} </span>

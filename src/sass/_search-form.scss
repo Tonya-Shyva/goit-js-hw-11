@@ -3,7 +3,7 @@
   --dur: 300ms;
   --color-bcg: blue;
   --color-light: #fff;
-  --color-btn-submit: rgb(203, 198, 198);
+  --color-btn-not-active: rgb(203, 198, 198);
   --color-activ: rgb(146, 215, 146);
   --height: 40px;
   --btn-width: 40px;
@@ -23,6 +23,7 @@ body {
   min-height: 100vh;
   align-items: center;
   justify-content: center;
+  padding-bottom: 15px;
 }
 
 .form-container {
@@ -67,7 +68,7 @@ input[type='text'] {
   right: 10px;
   width: var(--btn-width);
   font-weight: bold;
-  background: var(--color-btn-submit);
+  background: var(--color-btn-not-active);
   border-radius: 0 var(--rad) var(--rad) 0;
   cursor: pointer;
 
@@ -102,8 +103,7 @@ input:not(:placeholder-shown) {
 }
 
 .load-more {
-  display: flex;
-  margin: 0px auto 20px;
+  margin: 0 auto;
   padding: 10px 20px;
   text-align: center;
   text-transform: uppercase;
@@ -112,4 +112,10 @@ input:not(:placeholder-shown) {
   border: transparent;
   border-radius: var(--rad);
   cursor: pointer;
+
+  transition: background-color var(--dur) var(--bez);
+}
+
+.load-more:hover {
+  background-color: var(--color-activ);
 }
