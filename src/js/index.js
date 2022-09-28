@@ -20,17 +20,15 @@ function onBtnSearchClick(e) {
   cleanGallery();
   const trimmedValue = inputRef.value.trim();
   if (trimmedValue !== '') {
-    fetchImages(trimmedValue, pageNumber).then(foundData => {
-      //   console.dir('onBtnSearchClick', foundData);
-      if (foundData.hits.length === 0) {
+    fetchImages(trimmedValue, pageNumber).then(data => {
+      console.log('onBtnSearchClick', data);
+      if (data.hits.length === 0) {
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
       } else {
-        renderImageList(foundData.hits);
-        Notiflix.Notify.success(
-          `Hooray! We found ${foundData.totalHits} images.`
-        );
+        renderImageList(data.hits);
+        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
         btnLoadMore.style.display = 'block';
         gallerySimpleLightbox.refresh();
       }
@@ -40,18 +38,18 @@ function onBtnSearchClick(e) {
 
 btnLoadMore.addEventListener('click', onBtnLoadMoreClick);
 function onBtnLoadMoreClick() {
-  pageNumber += 1;
   const trimmedValue = inputRef.value.trim();
-  fetchImages(trimmedValue, pageNumber).then(foundData => {
-    // console.dir(foundData);
-    if (foundData.hits.length === 0) {
+  pageNumber += 1;
+  fetchImages(trimmedValue, pageNumber).then(data => {
+    console.log('onBtnLoadMoreClick', data);
+    if (data.hits.length === 0) {
       Notiflix.Notify.failure(
         "We're sorry, but you've reached the end of search results."
       );
       btnLoadMore.style.display = 'none';
       //   console.log(btnLoadMore);
     } else {
-      renderImageList(foundData.hits);
+      renderImageList(data.hits);
       const { height: cardHeight } =
         gallery.firstElementChild.getBoundingClientRect();
 
@@ -90,7 +88,7 @@ function renderImageList(images) {
     </div>`;
     })
     .join('');
-  gallery.innerHTML += markup;
+  gallery.insertAdjacentHTML('beforeend', markup);
 }
 
 function cleanGallery() {
