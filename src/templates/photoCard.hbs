@@ -1,10 +1,10 @@
 {{#each this}}
   <div class='photo-card'>
-    <a href='${image.largeImageURL}'><img
+    <a href={{largeImageURL}}><img
         class='photo'
-        src='${image.webformatURL}'
-        alt='${image.tags}'
-        title='${image.tags}'
+        src={{webformatURL}}
+        alt={{tags}}
+        title={{tags}}
         loading='lazy'
         width='262'
         height='200'
@@ -12,19 +12,19 @@
     <div class='info'>
       <p class='info-item'>
         <b>Likes</b>
-        <span class='info-item-api'> ${image.likes} </span>
+        <span class='info-item-api'> {{likes}} </span>
       </p>
       <p class='info-item'>
         <b>Views</b>
-        <span class='info-item-api'>${image.views}</span>
+        <span class='info-item-api'>{{views}}</span>
       </p>
       <p class='info-item'>
         <b>Comments</b>
-        <span class='info-item-api'>${image.comments}</span>
+        <span class='info-item-api'>{{comments}}</span>
       </p>
       <p class='info-item'>
         <b>Downloads</b>
-        <span class='info-item-api'>${image.downloads}</span>
+        <span class='info-item-api'>{{downloads}}</span>
       </p>
     </div>
   </div>

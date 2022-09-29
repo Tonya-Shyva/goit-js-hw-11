@@ -23,7 +23,7 @@ function onBtnSearchClick(e) {
   const trimmedValue = inputRef.value.trim();
   if (trimmedValue !== '') {
     fetchImages(trimmedValue, pageNumber).then(data => {
-      console.log('onBtnSearchClick', data);
+      //   console.log('onBtnSearchClick', data);
       if (data.hits.length === 0) {
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
@@ -39,11 +39,12 @@ function onBtnSearchClick(e) {
 }
 
 btnLoadMore.addEventListener('click', onBtnLoadMoreClick);
+
 function onBtnLoadMoreClick() {
   const trimmedValue = inputRef.value.trim();
   pageNumber += 1;
   fetchImages(trimmedValue, pageNumber).then(data => {
-    console.log('onBtnLoadMoreClick', data);
+    // console.log('onBtnLoadMoreClick', data);
     if (data.hits.length === 0 || data.hits.length < 40) {
       renderImageList(data.hits);
       Notiflix.Notify.failure(
@@ -53,14 +54,7 @@ function onBtnLoadMoreClick() {
       //   console.log(btnLoadMore);
     } else {
       renderImageList(data.hits);
-      const { height: cardHeight } =
-        gallery.firstElementChild.getBoundingClientRect();
-
-      window.scrollBy({
-        top: cardHeight * 2.14,
-
-        behavior: 'smooth',
-      });
+      scrollByAfterLoadMore();
 
       gallerySimpleLightbox.refresh();
     }
@@ -68,34 +62,54 @@ function onBtnLoadMoreClick() {
 }
 
 function renderImageList(images) {
-  console.log('images', images);
-  const markup = images
-    .map(image => {
-      //   console.log('img', image);
-      return `<div class="photo-card">
-         <a href="${image.largeImageURL}"><img class="photo" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy" width="262" height="200"/></a>
-          <div class="info">
-             <p class="info-item">
-      <b>Likes</b> <span class="info-item-api"> ${image.likes} </span>
-  </p>
-              <p class="info-item">
-                  <b>Views</b> <span class="info-item-api">${image.views}</span>
-              </p>
-              <p class="info-item">
-                  <b>Comments</b> <span class="info-item-api">${image.comments}</span>
-              </p>
-              <p class="info-item">
-                  <b>Downloads</b> <span class="info-item-api">${image.downloads}</span>
-              </p>
-          </div>
-      </div>`;
-    })
-    .join('');
-  gallery.insertAdjacentHTML('beforeend', markup);
+  // ------з використанням шаблонізатора handlebars-----------------------
+  gallery.insertAdjacentHTML('beforeend', photoMarkupTemplate(images));
+
+  // -------якщо без шаблонізатора----------------------------------------
+  //   const markup = images
+  //     .map(image => {
+  //       return photoMarkupTemplate(image);
+  //     })
+  //     .join('');
+  //   console.log(markup);
+  //   const markup = images
+  //     .map(image => {
+  //       console.log('img', image);
+  //       return `<div class="photo-card">
+  //            <a href="${image.largeImageURL}"><img class="photo" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy" width="262" height="200"/></a>
+  //             <div class="info">
+  //                <p class="info-item">
+  //         <b>Likes</b> <span class="info-item-api"> ${image.likes} </span>
+  //     </p>
+  //                 <p class="info-item">
+  //                     <b>Views</b> <span class="info-item-api">${image.views}</span>
+  //                 </p>
+  //                 <p class="info-item">
+  //                     <b>Comments</b> <span class="info-item-api">${image.comments}</span>
+  //                 </p>
+  //                 <p class="info-item">
+  //                     <b>Downloads</b> <span class="info-item-api">${image.downloads}</span>
+  //                 </p>
+  //             </div>
+  //         </div>`;
+  //     })
+  //     .join('');
+  // gallery.insertAdjacentHTML('beforeend', markup);
 }
 
 function cleanGallery() {
   gallery.innerHTML = '';
   pageNumber = 1;
   btnLoadMore.style.display = 'none';
+}
+
+function scrollByAfterLoadMore() {
+  const { height: cardHeight } =
+    gallery.firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2.14,
+
+    behavior: 'smooth',
+  });
 }
