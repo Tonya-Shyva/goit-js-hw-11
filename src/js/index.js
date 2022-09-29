@@ -3,6 +3,8 @@ import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+import photoMarkupTemplate from '../templates/photoCard.hbs';
+
 const inputRef = document.querySelector('input[type="text"]');
 const btnSearch = document.querySelector('.btn-submit');
 const gallery = document.querySelector('.gallery');
@@ -42,7 +44,8 @@ function onBtnLoadMoreClick() {
   pageNumber += 1;
   fetchImages(trimmedValue, pageNumber).then(data => {
     console.log('onBtnLoadMoreClick', data);
-    if (data.hits.length === 0) {
+    if (data.hits.length === 0 || data.hits.length < 40) {
+      renderImageList(data.hits);
       Notiflix.Notify.failure(
         "We're sorry, but you've reached the end of search results."
       );
@@ -65,27 +68,27 @@ function onBtnLoadMoreClick() {
 }
 
 function renderImageList(images) {
-  //   console.log(images, 'images');
+  console.log('images', images);
   const markup = images
     .map(image => {
       //   console.log('img', image);
       return `<div class="photo-card">
-       <a href="${image.largeImageURL}"><img class="photo" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy" width="262" height="200"/></a>
-        <div class="info">
-           <p class="info-item">
-    <b>Likes</b> <span class="info-item-api"> ${image.likes} </span>
-</p>
-            <p class="info-item">
-                <b>Views</b> <span class="info-item-api">${image.views}</span>  
-            </p>
-            <p class="info-item">
-                <b>Comments</b> <span class="info-item-api">${image.comments}</span>  
-            </p>
-            <p class="info-item">
-                <b>Downloads</b> <span class="info-item-api">${image.downloads}</span> 
-            </p>
-        </div>
-    </div>`;
+         <a href="${image.largeImageURL}"><img class="photo" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy" width="262" height="200"/></a>
+          <div class="info">
+             <p class="info-item">
+      <b>Likes</b> <span class="info-item-api"> ${image.likes} </span>
+  </p>
+              <p class="info-item">
+                  <b>Views</b> <span class="info-item-api">${image.views}</span>
+              </p>
+              <p class="info-item">
+                  <b>Comments</b> <span class="info-item-api">${image.comments}</span>
+              </p>
+              <p class="info-item">
+                  <b>Downloads</b> <span class="info-item-api">${image.downloads}</span>
+              </p>
+          </div>
+      </div>`;
     })
     .join('');
   gallery.insertAdjacentHTML('beforeend', markup);
