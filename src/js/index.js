@@ -46,6 +46,7 @@ function onBtnLoadMoreClick() {
     // console.log('onBtnLoadMoreClick', data);
     if (data.hits.length === 0 || data.hits.length < 40) {
       renderImageList(data.hits);
+      scrollByAfterLoadMore();
       Notiflix.Notify.failure(
         "We're sorry, but you've reached the end of search results."
       );
@@ -106,7 +107,7 @@ function scrollByAfterLoadMore() {
     gallery.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
-    top: cardHeight * 2.14,
+    top: cardHeight * 2.15,
 
     behavior: 'smooth',
   });
