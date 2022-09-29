@@ -2,7 +2,6 @@ import { fetchImages } from './fetchImages';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-
 import photoMarkupTemplate from '../templates/photoCard.hbs';
 
 const inputRef = document.querySelector('input[type="text"]');
@@ -24,7 +23,7 @@ function onBtnSearchClick(e) {
   if (trimmedValue !== '') {
     fetchImages(trimmedValue, pageNumber).then(data => {
       //   console.log('onBtnSearchClick', data);
-      if (data.hits.length === 0) {
+      if (data.totalHits === 0) {
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
@@ -100,7 +99,6 @@ function renderImageList(images) {
 function cleanGallery() {
   gallery.innerHTML = '';
   pageNumber = 1;
-  btnLoadMore.style.display = 'none';
 }
 
 function scrollByAfterLoadMore() {
