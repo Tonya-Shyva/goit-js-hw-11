@@ -117,6 +117,9 @@ function scrollByAfterLoadMore() {
   });
 }
 
-function scrollToTop() {
+btnToTop.addEventListener('scroll', scrollToTop);
+function scrollToTop(e) {
+  e.preventDefault();
   window.scrollTo(0, 50);
+  btnToTop.removeEventListener('scroll', scrollToTop);
 }
