@@ -112,7 +112,6 @@ function scrollByAfterLoadMore() {
 
   window.scrollBy({
     top: cardHeight * 2.15,
-
     behavior: 'smooth',
   });
 }
@@ -120,6 +119,9 @@ function scrollByAfterLoadMore() {
 btnToTop.addEventListener('scroll', scrollToTop);
 function scrollToTop(e) {
   e.preventDefault();
-  window.scrollTo(0, 50);
+  window.scrollTo({
+    top: 50,
+    behavior: 'smooth',
+  });
   btnToTop.removeEventListener('scroll', scrollToTop);
 }
