@@ -119,3 +119,26 @@ input:not(:placeholder-shown) {
 .load-more:hover {
   background-color: var(--color-activ);
 }
+
+.to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(184, 230, 255, 0.5);
+  cursor: pointer;
+  transition: box-shadow 150ms linear;
+}
+
+.to-top:hover {
+  box-shadow: 0px 2px 6px rgba(20, 71, 212, 0.3);
+}

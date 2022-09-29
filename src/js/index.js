@@ -8,11 +8,13 @@ const inputRef = document.querySelector('input[type="text"]');
 const btnSearch = document.querySelector('.btn-submit');
 const gallery = document.querySelector('.gallery');
 const btnLoadMore = document.querySelector('.load-more');
+const btnToTop = document.querySelector('.to-top');
 
 const gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 let pageNumber = 1;
 
 btnLoadMore.style.display = 'none';
+btnToTop.style.display = 'none';
 
 btnSearch.addEventListener('click', onBtnSearchClick);
 
@@ -42,6 +44,7 @@ btnLoadMore.addEventListener('click', onBtnLoadMoreClick);
 function onBtnLoadMoreClick() {
   const trimmedValue = inputRef.value.trim();
   pageNumber += 1;
+  btnToTop.style.display = 'inline-flex';
   fetchImages(trimmedValue, pageNumber).then(data => {
     // console.log('onBtnLoadMoreClick', data);
     if (data.hits.length === 0 || data.hits.length < 40) {
@@ -100,6 +103,7 @@ function renderImageList(images) {
 function cleanGallery() {
   gallery.innerHTML = '';
   pageNumber = 1;
+  btnToTop.style.display = 'none';
 }
 
 function scrollByAfterLoadMore() {
@@ -111,4 +115,8 @@ function scrollByAfterLoadMore() {
 
     behavior: 'smooth',
   });
+}
+
+function scrollToTop() {
+  window.scrollTo(0, 50);
 }
