@@ -31,12 +31,12 @@ function onBtnSearchClick(e) {
         );
       } else {
         renderImageList(data.hits);
+        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
         if (data.totalHits > 0 && data.totalHits < 40) {
           Notiflix.Notify.failure(
             "We're sorry, but you've reached the end of search results."
           );
         } else {
-          Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
           btnLoadMore.style.display = 'block';
         }
         gallerySimpleLightbox.refresh();
