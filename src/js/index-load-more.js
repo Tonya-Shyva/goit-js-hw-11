@@ -53,8 +53,8 @@ function onBtnLoadMoreClick() {
   btnToTop.style.display = 'inline-flex';
   fetchImages(trimmedValue, pageNumber).then(data => {
     // console.log('onBtnLoadMoreClick', data);
+    renderImageList(data.hits);
     if (data.hits.length === 0 || data.hits.length < 40) {
-      renderImageList(data.hits);
       scrollByAfterLoadMore();
       Notiflix.Notify.failure(
         "We're sorry, but you've reached the end of search results."
@@ -62,9 +62,7 @@ function onBtnLoadMoreClick() {
       btnLoadMore.style.display = 'none';
       //   console.log(btnLoadMore);
     } else {
-      renderImageList(data.hits);
       scrollByAfterLoadMore();
-
       gallerySimpleLightbox.refresh();
     }
   });
