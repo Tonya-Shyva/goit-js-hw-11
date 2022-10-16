@@ -15,7 +15,7 @@ const gallerySimpleLightbox = new SimpleLightbox('.gallery a');
 const guard = document.querySelector('.guard');
 const options = {
   root: null,
-  rootMargin: '50px',
+  rootMargin: '200px',
   threshold: 1,
 };
 const observer = new IntersectionObserver(onLoad, options); //клас для створення infinity scroll
@@ -44,14 +44,11 @@ function onBtnSearchClick(e) {
         renderImageList(data.hits);
         Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
         if (data.hits.length > 1 && data.hits.length < 40) {
-          //   renderImageList(data.hits);
           Notiflix.Notify.failure(
             "We're sorry, but you've reached the end of search results."
           );
           observer.unobserve(guard);
         } else {
-          //   renderImageList(data.hits);
-          btnToTop.style.display = 'none';
           observer.observe(guard);
         }
         gallerySimpleLightbox.refresh();
@@ -81,7 +78,6 @@ function onLoad(entries) {
           observer.observe(guard);
           gallerySimpleLightbox.refresh();
         }
-        gallerySimpleLightbox.refresh();
       });
     }
   });
