@@ -34,7 +34,6 @@ function onBtnSearchClick(e) {
     fetchImages(trimmedValue, pageNumber).then(data => {
       //   console.log('onBtnSearchClick', data);
       if (data.hits.length === 0) {
-        // cleanGallery();
         btnToTop.style.display = 'none';
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
@@ -60,7 +59,7 @@ function onBtnSearchClick(e) {
 // функція для infinity scroll--------------------------
 function onLoad(entries) {
   entries.forEach(entry => {
-    console.log(pageNumber);
+    // console.log(pageNumber);
     if (entry.isIntersecting) {
       //true
       const trimmedValue = inputRef.value.trim();
