@@ -102,6 +102,18 @@ input:not(:placeholder-shown) {
   fill: currentColor;
 }
 
+.heart {
+  fill: red;
+}
+
+.comment {
+  fill: blue;
+}
+
+.download {
+  fill: green;
+}
+
 .load-more {
   margin: 0 auto;
   padding: 10px 20px;
