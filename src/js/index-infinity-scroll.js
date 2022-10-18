@@ -33,26 +33,29 @@ function onBtnSearchClick(e) {
   const trimmedValue = inputRef.value.trim();
   if (trimmedValue !== '') {
     fetchImages(trimmedValue, pageNumber).then(data => {
+      const pages = Math.ceil(data.totalHits / data.hits.length);
       //   console.log('onBtnSearchClick', data);
-      if (data.hits.length === 0) {
+      if (data.totalHits === 0) {
+        console.log(pageNumber, pages);
         btnToTop.style.display = 'none';
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
         observer.unobserve(guard);
       } else {
+        console.log(pageNumber, pages);
+        observer.observe(guard);
         renderImageList(data.hits);
         Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
-        if (data.hits.length > 1 && data.hits.length < 40) {
+        if (pageNumber === pages) {
+          console.log(pageNumber === pages);
           Notiflix.Notify.failure(
             "We're sorry, but you've reached the end of search results."
           );
           observer.unobserve(guard);
-        } else {
-          observer.observe(guard);
         }
-        gallerySimpleLightbox.refresh();
       }
+      gallerySimpleLightbox.refresh();
     });
   }
 }
@@ -60,20 +63,23 @@ function onBtnSearchClick(e) {
 // функція для infinity scroll--------------------------
 function onLoad(entries) {
   entries.forEach(entry => {
-    // console.log(pageNumber);
     if (entry.isIntersecting) {
       //true
       const trimmedValue = inputRef.value.trim();
-      pageNumber += 1;
       btnToTop.style.display = 'inline-flex';
       fetchImages(trimmedValue, pageNumber).then(data => {
-        if (data.hits.length > 1 && data.hits.length < 40) {
+        pageNumber += 1;
+        const pages = Math.ceil(data.totalHits / data.hits.length);
+        if (pageNumber === pages) {
+          console.log(pageNumber, pages);
+
           renderImageList(data.hits);
           Notiflix.Notify.failure(
             "We're sorry, but you've reached the end of search results."
           );
           observer.unobserve(guard);
         } else {
+          console.log(pageNumber, pages);
           renderImageList(data.hits);
           observer.observe(guard);
           gallerySimpleLightbox.refresh();
