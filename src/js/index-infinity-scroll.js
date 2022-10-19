@@ -5,8 +5,8 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import photoMarkupTemplate from '../templates/photoCard.hbs';
 import icons from '../images/icons.svg';
 
+const form = document.querySelector('#search-form');
 const inputRef = document.querySelector('input[type="text"]');
-const btnSearch = document.querySelector('.btn-submit');
 const gallery = document.querySelector('.gallery');
 const btnToTop = document.querySelector('.to-top');
 
@@ -25,7 +25,8 @@ let pageNumber = 1;
 
 btnToTop.style.display = 'none';
 
-btnSearch.addEventListener('click', onBtnSearchClick);
+// вішаємо слухача на форму, щоб потім, якщо буде додатковий функціонал(інші кнопки в ній), щоб слухач тільки один був і було від нього делегування
+form.addEventListener('submit', onBtnSearchClick);
 
 function onBtnSearchClick(e) {
   e.preventDefault();
@@ -33,6 +34,7 @@ function onBtnSearchClick(e) {
   const trimmedValue = inputRef.value.trim();
   if (trimmedValue !== '') {
     fetchImages(trimmedValue, pageNumber).then(data => {
+      console.log(data);
       const pages = Math.ceil(data.totalHits / data.hits.length);
       //   console.log('onBtnSearchClick', data);
       if (data.totalHits === 0) {
