@@ -69,8 +69,8 @@ function onLoad(entries) {
       //true
       const trimmedValue = inputRef.value.trim();
       btnToTop.style.display = 'inline-flex';
+      pageNumber += 1;
       fetchImages(trimmedValue, pageNumber).then(data => {
-        pageNumber += 1;
         const pages = Math.ceil(data.totalHits / data.hits.length);
         if (pageNumber === pages) {
           console.log(pageNumber, pages);
